@@ -1,0 +1,6 @@
+2021-04-22 05:52:12,497 Reid_Baseline INFO: Test Results:
+2021-04-22 05:54:07,295 Reid_Baseline INFO: mAP: 5.4%
+2021-04-22 05:54:07,295 Reid_Baseline INFO: CMC curve, Rank-1  :19.8%
+2021-04-22 05:54:07,296 Reid_Baseline INFO: CMC curve, Rank-5  :28.7%
+2021-04-22 05:54:07,297 Reid_Baseline INFO: CMC curve, Rank-10 :39.6%
+2021-04-22 05:54:07,297 Reid_Baseline INFO: Testing complete in 1m 45s
