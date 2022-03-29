@@ -62,6 +62,7 @@ def train(config_file, **kwargs):
         start_epoch = resume_epoch
         for epoch in range(start_epoch):
             scheduler.step()
+        print(f"Resume from {start_epoch}, lr {scheduler.print_lr()}")
 
     logger.info("Start training")
     since = time.time()
