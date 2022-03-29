@@ -5,7 +5,6 @@ import time
 import torch
 import numpy as np
 from torch.autograd import Variable
-import shutil
 
 import models
 from config import cfg
