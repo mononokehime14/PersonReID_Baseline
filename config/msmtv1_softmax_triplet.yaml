@@ -9,6 +9,7 @@ INPUT:
 
 DATASETS:
   NAMES: ('MSMT17_V2')
+  STORE_DIR: '/home/Dataset/ReID/Person_ReID'
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'

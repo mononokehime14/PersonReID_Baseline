@@ -1,6 +1,6 @@
 MODEL:
   NAME: 'ResNet50'
-
+  
 INPUT:
   SIZE_TRAIN: [384, 128]
   SIZE_TEST: [384, 128]
@@ -8,10 +8,12 @@ INPUT:
   PADDING: 10
 
 DATASETS:
-  NAMES: ('Market-1501')
+  NAMES: ('MSMT17_V2')
+  STORE_DIR: '/home/Dataset/ReID/Person_ReID'
 
 DATALOADER:
-  SAMPLER: 'softmax'
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 4
   NUM_WORKERS: 8
 
 SOLVER:
@@ -30,7 +32,7 @@ SOLVER:
   EVAL_PERIOD: 20
 
 TEST:
-  IMS_PER_BATCH: 256
+  IMS_PER_BATCH: 64
 
-OUTPUT_DIR: "./checkpoint/Market1501/Softmax_BS64"
-DEVICE: "cuda"
+OUTPUT_DIR: "./checkpoint/MSMT17/Softmax_Triplet_BS64"
+DEVICE: "cuda:4"

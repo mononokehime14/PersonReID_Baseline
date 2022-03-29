@@ -5,7 +5,7 @@ import re
 from .BaseDataset import BaseImageDataset
 
 
-class MSMT17(BaseImageDataset):
+class MSMT17_V2(BaseImageDataset):
     """
     MSMT17
 
@@ -16,18 +16,19 @@ class MSMT17(BaseImageDataset):
     dataset_dir = 'MSMT17_V2'
 
     def __init__(self, cfg, verbose=True, **kwargs):
-        super(MSMT17, self).__init__()
+        super(MSMT17_V2, self).__init__()
         self.dataset_dir = os.path.join(cfg.DATASETS.STORE_DIR, self.dataset_dir)
         self.train_dir = os.path.join(self.dataset_dir, 'mask_train_v2')
         self.test_dir = os.path.join(self.dataset_dir, 'mask_test_v2')
         
         self.train_list = os.path.join(self.dataset_dir, 'list_train.txt')
+        self.test_list = os.path.join(self.dataset_dir, 'list_val.txt')
         self.query_list = os.path.join(self.dataset_dir, 'list_query.txt')
         self.gallery_list = os.path.join(self.dataset_dir, 'list_gallery.txt')
 
         self._check_before_run()
 
-        train = self._process_dir(self.train_dir, self.train_list, relabel=True)
+        train = self._process_dir(self.train_dir, self.train_list, self.test_list, relabel=True)
         query = self._process_dir(self.test_dir, self.query_list, relabel=False)
         gallery = self._process_dir(self.test_dir, self.gallery_list, relabel=False)
 
@@ -53,12 +54,14 @@ class MSMT17(BaseImageDataset):
             raise RuntimeError("'{}' is not available".format(self.test_dir))
         if not os.path.exists(self.train_list):
             raise RuntimeError("'{}' is not available".format(self.train_list))
+        if not os.path.exists(self.test_list):
+            raise RuntimeError("'{}' is not available".format(self.test_list))
         if not os.path.exists(self.query_list):
             raise RuntimeError("'{}' is not available".format(self.query_list))
         if not os.path.exists(self.gallery_list):
             raise RuntimeError("'{}' is not available".format(self.gallery_list))
 
-    def _process_dir(self, dir_path, txt_list, relabel=False):
+    def _process_dir(self, dir_path, txt_list, second_txt_list=None, relabel=False):
         text_file = open(txt_list, "r")
         img_paths = text_file.read().split('\n')
         img_paths = list(filter(None, img_paths))
@@ -76,5 +79,22 @@ class MSMT17(BaseImageDataset):
 
             if relabel: pid = pid2label[pid]
             dataset.append((os.path.join(dir_path,img_path.split(' ')[0]), pid, camid))
+        
+        if second_txt_list:
+            text_file = open(second_txt_list, "r")
+            img_paths = text_file.read().split('\n')
+            img_paths = list(filter(None, img_paths))
+            pid_container = set()
+            for img_path in img_paths:
+                pid = img_path.split(' ')[1]
+                pid_container.add(pid)
+            pid2label = {pid: label for label, pid in enumerate(pid_container)}
+            for img_path in img_paths:
+                pid = img_path.split(' ')[1]
+                camid = str(int(img_path.split(' ')[0].split('_')[2]))
+
+                if relabel: pid = pid2label[pid]
+                dataset.append((os.path.join(dir_path,img_path.split(' ')[0]), pid, camid))
+
 
         return dataset

@@ -30,7 +30,7 @@ def train(config_file, **kwargs):
         cfg.merge_from_list(opts)
     cfg.freeze()
     
-    Person_ReID_Dataset_Downloader('./datasets',cfg.DATASETS.NAMES)
+    #Person_ReID_Dataset_Downloader('./datasets',cfg.DATASETS.NAMES)
     
     output_dir = cfg.OUTPUT_DIR
     if output_dir and not os.path.exists(output_dir):

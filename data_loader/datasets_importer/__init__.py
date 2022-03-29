@@ -2,14 +2,16 @@
 from .cuhk03 import CUHK03
 from .market1501 import Market1501
 from .dukemtmc import DukeMTMC
-from .msmt17 import MSMT17
+from .msmt17_v2 import MSMT17_V2
+from .msmt17_v1 import MSMT17_V1
 from .ImageDataset import ImageDataset
 
 __factory = {
     'CUHK03': CUHK03,
     'Market-1501': Market1501,
     'DukeMTMC-reID': DukeMTMC,
-    'MSMT17_V2': MSMT17,
+    'MSMT17_V2': MSMT17_V2,
+    'MSMT17_V1': MSMT17_V1
 }
 
 
