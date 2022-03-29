@@ -5,6 +5,8 @@ import time
 import torch
 import numpy as np
 from torch.autograd import Variable
+import shutil
+
 import models
 from config import cfg
 from data_loader import data_loader
@@ -19,6 +21,11 @@ if check_jupyter_run():
     from tqdm import tqdm_notebook as tqdm
 else:
     from tqdm import tqdm
+
+def save_checkpoint(state, outdir):
+    filename = outdir+ "/checkpoint.pth.tar"
+    print(f"Saving checkpoint to {filename}")
+    torch.save(state, filename)
 
 def train(config_file, **kwargs):
     cfg.merge_from_file(config_file)
@@ -50,19 +57,22 @@ def train(config_file, **kwargs):
     resume_path = cfg.SOLVER.RESUME_PATH
      
     train_loader, val_loader, num_query, num_classes = data_loader(cfg,cfg.DATASETS.NAMES)
-
-    model = getattr(models, cfg.MODEL.NAME)(num_classes) 
-    if resume_epoch != 0 and resume_path:
-        model.load(resume_path,resume_epoch)       
+    
+    start_epoch = 0
+    model = getattr(models, cfg.MODEL.NAME)(num_classes)     
     optimizer = make_optimizer(cfg, model)
     scheduler = make_scheduler(cfg,optimizer)
     loss_fn = make_loss(cfg)
-    start_epoch = 0
-    if resume_epoch != 0 and resume_path:
-        start_epoch = resume_epoch
-        for epoch in range(start_epoch):
-            scheduler.step()
-        print(f"Resume from {start_epoch}, lr {scheduler.print_lr()}")
+
+    if cfg.SOLVER.RESUME:
+        print("=> loading checkpoint '{}'".format(cfg.SOLVER.RESUME))
+        checkpoint = torch.load(cfg.SOLVER.RESUME)
+        start_epoch = checkpoint['epoch']
+        model.load_state_dict(checkpoint['state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer'])
+        scheduler.load_state_dict(checkpoint['scheduler'])
+        print("=> loaded checkpoint '{}' (epoch {})"
+              .format(cfg.SOLVER.RESUME, checkpoint['epoch']))
 
     logger.info("Start training")
     since = time.time()
@@ -100,6 +110,12 @@ def train(config_file, **kwargs):
         if (epoch+1) % checkpoint_period == 0:
             model.cpu()
             model.save(output_dir,epoch+1)
+            save_checkpoint({
+                'epoch': epoch + 1,
+                'state_dict': model.state_dict(),
+                'optimizer' : optimizer.state_dict(),
+                'scheduler' : scheduler.state_dict()
+            }, outdir=output_dir)
 
         # Validation
         if (epoch+1) % eval_period == 0:

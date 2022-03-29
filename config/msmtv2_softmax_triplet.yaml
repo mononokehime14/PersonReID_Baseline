@@ -35,4 +35,4 @@ TEST:
   IMS_PER_BATCH: 64
 
 OUTPUT_DIR: "./checkpoint/MSMT17/Softmax_Triplet_BS64"
-DEVICE: "cuda:4"
+DEVICE: "cuda:7"

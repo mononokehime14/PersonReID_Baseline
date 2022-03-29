@@ -82,8 +82,9 @@ _C.SOLVER.EVAL_PERIOD = 50
 # see 2 images per batch
 _C.SOLVER.IMS_PER_BATCH = 64
 
-_C.SOLVER.RESUME_EPOCH = 0
-_C.SOLVER.RESUME_PATH = ''
+# _C.SOLVER.RESUME_EPOCH = 0
+# _C.SOLVER.RESUME_PATH = ''
+_C.SOLVER.RESUME = ''
 
 # This is global, so if we have 8 GPUs and IMS_PER_BATCH = 16, each GPU will
 # see 2 images per batch
