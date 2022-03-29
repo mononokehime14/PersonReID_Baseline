@@ -52,8 +52,6 @@ def train(config_file, **kwargs):
     output_dir = cfg.OUTPUT_DIR
     device = torch.device(cfg.DEVICE)
     epochs = cfg.SOLVER.MAX_EPOCHS
-    resume_epoch = cfg.SOLVER.RESUME_EPOCH
-    resume_path = cfg.SOLVER.RESUME_PATH
      
     train_loader, val_loader, num_query, num_classes = data_loader(cfg,cfg.DATASETS.NAMES)
     
