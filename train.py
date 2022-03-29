@@ -46,17 +46,26 @@ def train(config_file, **kwargs):
     output_dir = cfg.OUTPUT_DIR
     device = torch.device(cfg.DEVICE)
     epochs = cfg.SOLVER.MAX_EPOCHS
+    resume_epoch = cfg.SOLVER.RESUME_EPOCH
+    resume_path = cfg.SOLVER.RESUME_PATH
      
     train_loader, val_loader, num_query, num_classes = data_loader(cfg,cfg.DATASETS.NAMES)
 
-    model = getattr(models, cfg.MODEL.NAME)(num_classes)        
+    model = getattr(models, cfg.MODEL.NAME)(num_classes) 
+    if resume_epoch != 0 and resume_path:
+        model = torch.load(resume_path)       
     optimizer = make_optimizer(cfg, model)
     scheduler = make_scheduler(cfg,optimizer)
     loss_fn = make_loss(cfg)
+    start_epoch = 0
+    if resume_epoch != 0 and resume_path:
+        start_epoch = resume_epoch
+        for epoch in range(start_epoch):
+            scheduler.step()
 
     logger.info("Start training")
     since = time.time()
-    for epoch in range(epochs):
+    for epoch in range(start_epoch, epochs):
         count = 0
         running_loss = 0.0
         running_acc = 0
