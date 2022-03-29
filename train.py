@@ -53,7 +53,7 @@ def train(config_file, **kwargs):
 
     model = getattr(models, cfg.MODEL.NAME)(num_classes) 
     if resume_epoch != 0 and resume_path:
-        model = torch.load(resume_path)       
+        model.load(resume_path,resume_epoch)       
     optimizer = make_optimizer(cfg, model)
     scheduler = make_scheduler(cfg,optimizer)
     loss_fn = make_loss(cfg)
