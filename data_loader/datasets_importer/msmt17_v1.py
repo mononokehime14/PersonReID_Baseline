@@ -25,11 +25,11 @@ class MSMT17_V1(BaseImageDataset):
         self._check_before_run()
 
         train = self._process_dir(self.train_dir, relabel=True)
-        query = self._process_dir(self.test_dir, relabel=False)
-        gallery = self._process_dir(self.test_dir, relabel=False)
+        query = self._process_dir(self.query_dir, relabel=False)
+        gallery = self._process_dir(self.gallery_dir, relabel=False)
 
         if verbose:
-            print("=> MSMT17 Loaded")
+            print("=> MSMT17_V1 Loaded")
             self.print_dataset_statistics(train, query, gallery)
 
         self.train = train

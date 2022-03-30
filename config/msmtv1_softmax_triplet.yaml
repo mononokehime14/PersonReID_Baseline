@@ -8,7 +8,7 @@ INPUT:
   PADDING: 10
 
 DATASETS:
-  NAMES: ('MSMT17_V2')
+  NAMES: ('MSMT17_V1')
   STORE_DIR: '/home/Dataset/ReID/Person_ReID'
 
 DATALOADER:
@@ -34,5 +34,5 @@ SOLVER:
 TEST:
   IMS_PER_BATCH: 64
 
-OUTPUT_DIR: "./checkpoint/MSMT17/Softmax_Triplet_BS64"
+OUTPUT_DIR: "./checkpoint/MSMT17_V1/Softmax_Triplet_BS64"
 DEVICE: "cuda:7"

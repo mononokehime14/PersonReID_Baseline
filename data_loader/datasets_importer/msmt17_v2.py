@@ -33,7 +33,7 @@ class MSMT17_V2(BaseImageDataset):
         gallery = self._process_dir(self.test_dir, self.gallery_list, relabel=False)
 
         if verbose:
-            print("=> MSMT17 Loaded")
+            print("=> MSMT17_V2 Loaded")
             self.print_dataset_statistics(train, query, gallery)
 
         self.train = train
@@ -80,6 +80,7 @@ class MSMT17_V2(BaseImageDataset):
             if relabel: pid = pid2label[pid]
             dataset.append((os.path.join(dir_path,img_path.split(' ')[0]), pid, camid))
         
+        #Add images in the val_list into the train dataset
         if second_txt_list:
             text_file = open(second_txt_list, "r")
             img_paths = text_file.read().split('\n')

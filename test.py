@@ -29,7 +29,7 @@ def test(config_file, **kwargs):
     
     re_ranking=cfg.RE_RANKING
     
-    Person_ReID_Dataset_Downloader('./datasets',cfg.DATASETS.NAMES)
+    #Person_ReID_Dataset_Downloader('./datasets',cfg.DATASETS.NAMES)
     if not re_ranking:
         logger = make_logger("Reid_Baseline", cfg.OUTPUT_DIR,'result')
         logger.info("Test Results:")

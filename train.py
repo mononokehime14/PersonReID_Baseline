@@ -63,11 +63,11 @@ def train(config_file, **kwargs):
 
     if cfg.SOLVER.RESUME:
         print("=> loading checkpoint '{}'".format(cfg.SOLVER.RESUME))
-        checkpoint = torch.load(cfg.SOLVER.RESUME)
+        checkpoint = torch.load(cfg.SOLVER.RESUME,map_location=torch.device('cpu'))
         start_epoch = checkpoint['epoch']
-        model.load_state_dict(checkpoint['state_dict'],map_location=torch.device('cpu'))
-        optimizer.load_state_dict(checkpoint['optimizer'],map_location=torch.device('cpu'))
-        scheduler.load_state_dict(checkpoint['scheduler'], map_location=torch.device('cpu'))
+        model.load_state_dict(checkpoint['state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer'])
+        scheduler.load_state_dict(checkpoint['scheduler'])
         print("=> loaded checkpoint '{}' (epoch {})"
               .format(cfg.SOLVER.RESUME, checkpoint['epoch']))
 
