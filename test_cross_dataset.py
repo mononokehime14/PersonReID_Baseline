@@ -31,10 +31,10 @@ def test_cross_dataset(config_file,test_dataset, **kwargs):
         cfg.merge_from_list(opts)
     cfg.freeze()
     
-    Person_ReID_Dataset_Downloader('./datasets',cfg.DATASETS.NAMES)
+    #Person_ReID_Dataset_Downloader('./datasets',cfg.DATASETS.NAMES)
     _, _, _, num_classes = data_loader(cfg,cfg.DATASETS.NAMES)
     
-    Person_ReID_Dataset_Downloader('./datasets',test_dataset)
+    #Person_ReID_Dataset_Downloader('./datasets',test_dataset)
     _, val_loader, num_query, _ = data_loader(cfg,test_dataset)
     
     re_ranking=cfg.RE_RANKING

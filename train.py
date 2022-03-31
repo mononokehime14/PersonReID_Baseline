@@ -60,6 +60,8 @@ def train(config_file, **kwargs):
     optimizer = make_optimizer(cfg, model)
     scheduler = make_scheduler(cfg,optimizer)
     loss_fn = make_loss(cfg)
+    if device:
+        model.to(device)
 
     if cfg.SOLVER.RESUME:
         print("=> loading checkpoint '{}'".format(cfg.SOLVER.RESUME))
@@ -82,7 +84,7 @@ def train(config_file, **kwargs):
             images, labels = data
 
             if device:
-                model.to(device)
+                #model.to(device)
                 images, labels = images.to(device), labels.to(device)
 
             optimizer.zero_grad()
